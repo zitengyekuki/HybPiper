@@ -32,9 +32,11 @@ def read_sorting(bamfilename):
     read_hit_dict = {}
     counter = 0
     for line in bwa_results:
-        counter += 1
-        if counter % 500000 == 0:
-            print 'now in line number:' + str(counter)
+        print 'now in readID:'
+        print line[0]
+        # counter += 1
+        # if counter % 500000 == 0:
+        #     print 'now in line number:' + str(counter)
             # print line
         line = line.split()
         readID = line[0]
