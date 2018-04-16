@@ -30,7 +30,12 @@ def read_sorting(bamfilename):
     bwa_results = child.stdout.readlines()
     
     read_hit_dict = {}
+    counter = 0
     for line in bwa_results:
+        counter += 1
+        if counter % 50000 == 0:
+            print 'now in line number:' + str(counter)
+            print line
         line = line.split()
         readID = line[0]
         target = line[2].split("-")[-1]
@@ -65,6 +70,7 @@ def write_single_seqs(target,ID1,Seq1):
     
     
 def distribute_reads(readfiles,read_hit_dict,single=True):
+
     iterator1 = FastqGeneralIterator(open(readfiles[0]))
     if len(readfiles) == 1:
     
@@ -73,8 +79,13 @@ def distribute_reads(readfiles,read_hit_dict,single=True):
             if ID1.endswith("\1") or ID1.endswith("\2"):
                 ID1 = ID1[:-2]
             if ID1 in read_hit_dict:
+                file_counter = 1
                 for target in read_hit_dict[ID1]:
+                    if file_counter % 2000 == 0:
+                        print 'now already adding:' + str(file_counter) + 'file'
+                        print target
                     write_single_seqs(target,ID1,Seq1)
+                    file_counter += 1
         return
 
     elif len(readfiles) == 2:
@@ -92,11 +103,23 @@ def distribute_reads(readfiles,read_hit_dict,single=True):
             ID2 = ID2[:-2]
         
         if ID1 in read_hit_dict:
+            file_counter = 1
             for target in read_hit_dict[ID1]:
+                if file_counter % 2000 == 0:
+                    print 'now already adding:' + str(file_counter) + 'file'
+                    print target
                 write_paired_seqs(target,ID1,Seq1,ID2,Seq2)
+                file_counter += 1
+
         elif ID2 in read_hit_dict:
+            file_counter = 1
             for target in read_hit_dict[ID2]:
+                if file_counter % 2000 == 0:
+                    print 'now already adding:' + str(file_counter) + 'file'
+                    print target
                 write_paired_seqs(target,ID1,Seq1,ID2,Seq2)
+                file_counter += 1
+
 
 def main():
     bamfilename = sys.argv[1]
