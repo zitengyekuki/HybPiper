@@ -33,9 +33,9 @@ def read_sorting(bamfilename):
     counter = 0
     for line in bwa_results:
         counter += 1
-        if counter % 50000 == 0:
+        if counter % 500000 == 0:
             print 'now in line number:' + str(counter)
-            print line
+            # print line
         line = line.split()
         readID = line[0]
         target = line[2].split("-")[-1]
@@ -81,9 +81,9 @@ def distribute_reads(readfiles,read_hit_dict,single=True):
             if ID1 in read_hit_dict:
                 file_counter = 1
                 for target in read_hit_dict[ID1]:
-                    if file_counter % 2000 == 0:
+                    if file_counter % 100000 == 0:
                         print 'now already adding:' + str(file_counter) + 'file'
-                        print target
+                        # print target
                     write_single_seqs(target,ID1,Seq1)
                     file_counter += 1
         return
@@ -105,18 +105,18 @@ def distribute_reads(readfiles,read_hit_dict,single=True):
         if ID1 in read_hit_dict:
             file_counter = 1
             for target in read_hit_dict[ID1]:
-                if file_counter % 2000 == 0:
+                if file_counter % 100000 == 0:
                     print 'now already adding:' + str(file_counter) + 'file'
-                    print target
+                    # print target
                 write_paired_seqs(target,ID1,Seq1,ID2,Seq2)
                 file_counter += 1
 
         elif ID2 in read_hit_dict:
             file_counter = 1
             for target in read_hit_dict[ID2]:
-                if file_counter % 2000 == 0:
+                if file_counter % 100000 == 0:
                     print 'now already adding:' + str(file_counter) + 'file'
-                    print target
+                    # print target
                 write_paired_seqs(target,ID1,Seq1,ID2,Seq2)
                 file_counter += 1
 
