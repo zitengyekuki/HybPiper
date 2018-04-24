@@ -191,8 +191,19 @@ def filter_gff(hits,merge=True):
         #print kept_indicies
         #print non_overlapping_indicies
 
-        return [hits[kept_indicies[x]] for x in sorted(non_overlapping_indicies)]#.sort()]    
-                
+        try:
+            return_value = []
+            for x in sorted(non_overlapping_indicies):
+                try:
+                    return_value.append(hits[kept_indicies[x]])
+                except Exception, e:
+                    print(e)
+                    print("x is: {}".format(x))
+                    print("kept_indicies is: {}".format(kept_indicies))
+                    print("hits is: {}".format(hits))
+            return return_value
+        except Exception,e:
+            print(e)
     else:
         return [hits[x] for x in kept_indicies]            
     #print [gene_annotations[x] for x in kept_indicies]
